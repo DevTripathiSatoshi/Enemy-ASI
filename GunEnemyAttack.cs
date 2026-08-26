@@ -39,7 +39,7 @@ namespace Doom_Dude.EnemyASI
                     Rigidbody rb = projectile.GetComponent<Rigidbody>();
                     if (rb != null)
                     {
-                        rb.velocity = aimDirection * projectileSpeed;
+                        rb.linearVelocity = aimDirection * projectileSpeed;
                     }
                 }
             }
