@@ -110,13 +110,16 @@ namespace Doom_Dude.EnemyASI
 
         public void AnimEvent_Shoot()
         {
-            if (enemyAttack != null)
-            {
-                enemyAttack.TriggerAttackEvent();
-            }
+            TriggerAttack();
         }
 
         public void AnimEvent_MeleeHit()
+        {
+            TriggerAttack();
+        }
+
+        // Called by StateMachineBehaviour as an alternative to Animation Events
+        public void TriggerAttack()
         {
             if (enemyAttack != null)
             {
