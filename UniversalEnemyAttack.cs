@@ -15,6 +15,12 @@ namespace Doom_Dude.EnemyASI
         public AttackType attackType = AttackType.Melee;
         [SerializeField] private LayerMask targetMask;
 
+        [Header("Professional Animation Settings")]
+        [Tooltip("Drop an Animator Override Controller here (e.g. Pistol, Rifle, Melee) to change this enemy's animations without changing the code!")]
+        public AnimatorOverrideController weaponAnimatorOverride;
+        [Tooltip("How many attack variations does this weapon have in the animator? (Starts at 0)")]
+        public int numberOfAttackVariations = 1;
+
         [Header("Melee Settings")]
         [SerializeField] private Transform meleeHitPoint;
         [SerializeField] private float meleeHitRadius = 0.5f;

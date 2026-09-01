@@ -20,7 +20,8 @@ namespace Doom_Dude.EnemyASI
 
         // Animator Hashes for Kevin Iglesias pack mapping
         private readonly int hashIsAiming = Animator.StringToHash("IsAiming");
-        private readonly int hashSpeed = Animator.StringToHash("Speed"); // Blends Walk/Run
+        private readonly int hashVelocityX = Animator.StringToHash("VelocityX");
+        private readonly int hashVelocityZ = Animator.StringToHash("VelocityZ");
         private readonly int hashHit = Animator.StringToHash("Hit");
 
         private void Awake()
@@ -31,6 +32,16 @@ namespace Doom_Dude.EnemyASI
             if (enemyVision == null) enemyVision = GetComponentInParent<EnemyVision>();
             if (enemyAttack == null) enemyAttack = GetComponentInParent<EnemyAttack>();
             if (agent == null) agent = GetComponentInParent<NavMeshAgent>();
+        }
+
+        private void Start()
+        {
+            // Apply Weapon Animation Override if provided
+            UniversalEnemyAttack universalAttack = enemyAttack as UniversalEnemyAttack;
+            if (animator != null && universalAttack != null && universalAttack.weaponAnimatorOverride != null)
+            {
+                animator.runtimeAnimatorController = universalAttack.weaponAnimatorOverride;
+            }
         }
 
         private void OnEnable()
@@ -61,9 +72,14 @@ namespace Doom_Dude.EnemyASI
         {
             if (agent != null && animator != null)
             {
-                // Smoothly pass the agent's current speed to the animator
-                // 0 = Idle, ~3.5 = Walk, ~6 = Run (based on EnemyAI settings)
-                animator.SetFloat(hashSpeed, agent.velocity.magnitude, 0.1f, Time.deltaTime);
+                // Convert world velocity to local velocity for strafing support (2D Blend Tree)
+                Vector3 localVelocity = transform.InverseTransformDirection(agent.velocity);
+                
+                // localVelocity.x is left/right (- for left, + for right)
+                // localVelocity.z is forward/backward (- for back, + for forward)
+                
+                animator.SetFloat(hashVelocityX, localVelocity.x, 0.1f, Time.deltaTime);
+                animator.SetFloat(hashVelocityZ, localVelocity.z, 0.1f, Time.deltaTime);
             }
         }
 

@@ -205,7 +205,16 @@ namespace Doom_Dude.EnemyASI
                 {
                     if (attack.CanAttack())
                     {
-                        if (animator != null) animator.SetTrigger(hashAttack);
+                        if (animator != null)
+                        {
+                            UniversalEnemyAttack universalAttack = attack as UniversalEnemyAttack;
+                            if (universalAttack != null && universalAttack.numberOfAttackVariations > 0)
+                            {
+                                int randomAttack = Random.Range(0, universalAttack.numberOfAttackVariations);
+                                animator.SetInteger("AttackIndex", randomAttack);
+                            }
+                            animator.SetTrigger(hashAttack);
+                        }
                         attack.PerformAttack(target);
                     }
                 }
