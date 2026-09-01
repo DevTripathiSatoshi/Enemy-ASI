@@ -11,9 +11,12 @@ namespace Doom_Dude.EnemyASI
 
         protected override void ExecuteAttack(Transform target)
         {
-            // Here you would typically trigger an animation event, 
-            // but for a simple implementation we do the overlap sphere immediately.
-            
+            // The actual attack animation is triggered by EnemyAI.
+            // Damage is now dealt via Animation Event calling TriggerMeleeDamage().
+        }
+
+        public override void TriggerAttackEvent()
+        {
             Vector3 hitCenter = meleeHitPoint != null ? meleeHitPoint.position : transform.position + transform.forward;
             
             Collider[] hitTargets = Physics.OverlapSphere(hitCenter, meleeHitRadius, targetMask);
@@ -24,7 +27,7 @@ namespace Doom_Dude.EnemyASI
                 if (damageable != null)
                 {
                     damageable.TakeDamage(attackDamage);
-                    Debug.Log("Normal Enemy hit the target!");
+                    Debug.Log("Normal Enemy hit the target via Animation Event!");
                 }
             }
         }

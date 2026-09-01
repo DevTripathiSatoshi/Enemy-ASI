@@ -29,6 +29,11 @@ namespace Doom_Dude.EnemyASI
 
         protected abstract void ExecuteAttack(Transform target);
 
+        // Called by animation events to apply damage or fire a projectile
+        public virtual void TriggerAttackEvent()
+        {
+        }
+
         // Utility to visually show attack range in Editor
         protected virtual void OnDrawGizmosSelected()
         {

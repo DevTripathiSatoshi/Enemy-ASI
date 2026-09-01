@@ -11,6 +11,7 @@ namespace Doom_Dude.EnemyASI
         [SerializeField] private EnemyAI enemyAI;
         [SerializeField] private EnemyHealth enemyHealth;
         [SerializeField] private EnemyVision enemyVision;
+        [SerializeField] private EnemyAttack enemyAttack;
         [SerializeField] private NavMeshAgent agent;
 
         [Header("Animation Settings")]
@@ -28,6 +29,7 @@ namespace Doom_Dude.EnemyASI
             if (enemyAI == null) enemyAI = GetComponentInParent<EnemyAI>();
             if (enemyHealth == null) enemyHealth = GetComponentInParent<EnemyHealth>();
             if (enemyVision == null) enemyVision = GetComponentInParent<EnemyVision>();
+            if (enemyAttack == null) enemyAttack = GetComponentInParent<EnemyAttack>();
             if (agent == null) agent = GetComponentInParent<NavMeshAgent>();
         }
 
@@ -92,13 +94,18 @@ namespace Doom_Dude.EnemyASI
 
         public void AnimEvent_Shoot()
         {
-            // Optional: You can move the shooting logic from GunEnemyAttack.cs 
-            // into here if you want the bullet to fire EXACTLY on a specific animation frame.
+            if (enemyAttack != null)
+            {
+                enemyAttack.TriggerAttackEvent();
+            }
         }
 
         public void AnimEvent_MeleeHit()
         {
-            // Optional: Trigger melee damage exactly when the gun butt swings.
+            if (enemyAttack != null)
+            {
+                enemyAttack.TriggerAttackEvent();
+            }
         }
     }
 }
